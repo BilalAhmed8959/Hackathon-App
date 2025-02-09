@@ -8,34 +8,72 @@ const auth = getAuth(app);
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // ✅ Correct useNavigate()
+  const [nameValue, setNameValue] = useState('');
+  const [imagei, setImagei]= useState()
+  const navigate = useNavigate(); 
 
   const signupUser = () => {
+    if (!email || !password || !nameValue) {
+      alert("Please fill all fields!");  
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
         console.log('User created:', res.user);
-        navigate('/login'); // ✅ Corrected 'navigate' function
+        sendData();  
+        navigate('/login'); 
       })
       .catch((err) => console.error('Signup Error:', err.message));
   };
 
+  const sendData = () => {
+    const data = { name: nameValue ,imagei };
+    localStorage.setItem("userData", JSON.stringify(data));
+    console.log("Data stored in localStorage:", data);
+  };
+
+  // Cloudinary widget setup
+  var myWidget = cloudinary.createUploadWidget({
+    cloudName: 'dqyzpuc70', 
+    uploadPreset: 'expetizo-hackathon'
+  }, (error, result) => { 
+    if (!error && result && result.event === "success") { 
+      console.log('Done! Here is the image info: ', result.info);
+      setImagei(result.info.url) 
+    }
+  });
+
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <input type="text" placeholder="Enter name" />
-      <input
-        type="email"
-        placeholder="Enter email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Enter password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={signupUser}>Signup</button> 
+    <div className='flex justify-center items-start pt-20'>
+      <div className='w-[350px] h-96 flex flex-col items-center rounded-2xl shadow-md'>
+        <h1 className='pt-10 text-3xl font-bold font-medium'>Sign Up</h1>
+        <input 
+          className='mt-16 rounded-b-sm p-1 shadow-md' 
+          type="text" 
+          placeholder="Enter name"
+          value={nameValue}
+          onChange={(e) => setNameValue(e.target.value)}
+        />
+        <input 
+          className='mt-2 rounded-b-sm p-1 shadow-md'
+          type="email"
+          placeholder="Enter email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input 
+          className='rounded-b-sm p-1 shadow-md mt-2'  
+          type="password"
+          placeholder="Enter password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button onClick={() => myWidget.open()}>Upload Image</button>
+        <div className='w-24 h-12 rounded-2xl flex justify-center items-center mt-6 bg-blue-600 hover:bg-blue-800'>
+          <button  onClick={signupUser}>Signup</button>
+        </div>  
+      </div>
     </div>
   );
 };
