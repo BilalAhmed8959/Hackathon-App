@@ -40,7 +40,7 @@ const Login = () => {
       <div className='w-24 h-12 rounded-2xl flex justify-center items-center mt-6 bg-blue-600 hover:bg-blue-800  '>
       <button onClick={signinUser}>Sign in</button> 
       </div>
-      <p>Don't have an account ? <Link className='text-green-800 font-bold' to={'/singup'}>Register</Link> </p>
+      <p>Don't have an account ? <Link className='text-green-800 font-bold' to={'/'}>Register</Link> </p>
     </div>
   </div>
   );

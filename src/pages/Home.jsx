@@ -159,6 +159,7 @@ const Home = () => {
 
       <button onClick={logoutUser} className='fixed top-20 right-5 bg-red-600 text-white px-5 py-2 rounded-xl shadow-xl hover:bg-red-700 transition-all'>Logout</button>
     </div>
+    
   );
 };
 
