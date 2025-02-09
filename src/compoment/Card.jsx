@@ -1,31 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
-const Card = ({ title, additionalInfo }) => {
-  const [userData, setUserData] = useState({ name: '', imageUrl: '' });
-
-  useEffect(() => {
-    // Fetch data from localStorage
-    const storedData = JSON.parse(localStorage.getItem('userData'));
-    const storedImageUrl = localStorage.getItem('uploadedImageUrl');
-
-    if (storedData && storedImageUrl) {
-      setUserData({
-        name: storedData.name,
-        imageUrl: storedImageUrl,
-      });
-    }
-  }, []);
-
+export default function SocialEventsUI() {
   return (
-    <div className="w-80 h-96 shadow-lg rounded-2xl p-4 bg-white flex flex-col items-center">
-      <h2 className="font-semibold text-xl mb-4">{userData.name}</h2>
-      {userData.imageUrl && (
-        <img src={userData.imageUrl} alt="User" className="w-32 h-32 rounded-full mb-4" />
-      )}
-      <div className="text-gray-600">{title}</div>
-      <div className="mt-4 text-sm text-gray-500">{additionalInfo}</div>
+    <div className="p-4 max-w-md mx-auto space-y-4">
+      {/* Suggested Profile */}
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold">You might like</h3>
+          <a href="#" className="text-blue-500 text-sm">See all</a>
+        </div>
+        <div className="flex items-center space-x-3 mt-3">
+          <Avatar className="w-10 h-10" />
+          <div className="flex-1">
+            <p className="font-medium">Mohammad Rafil</p>
+            <p className="text-xs text-gray-500">15 Mutuals</p>
+          </div>
+        </div>
+        <div className="mt-3 flex space-x-2">
+          <Button className="bg-pink-500">Follow</Button>
+          <Button variant="outline">Ignore</Button>
+        </div>
+      </Card>
+      
+      {/* Upcoming Events */}
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Upcoming Events</h3>
+          <a href="#" className="text-blue-500 text-sm">See all</a>
+        </div>
+        {[1, 2].map((event, index) => (
+          <div key={index} className="p-3 mt-3 rounded-lg bg-gray-100">
+            <Badge className="text-green-600 bg-green-100">Design Talks</Badge>
+            <p className="text-sm text-gray-500">12 Oct, 13:00 IST</p>
+            <p className="text-xs mt-1">
+              A General talk about design with Sr Designer of Logitech Michael Spunfik.
+            </p>
+            <div className="flex items-center mt-2 text-sm text-gray-600">
+              <Avatar className="w-6 h-6" />
+              <span className="ml-2">+8</span>
+              <span className="ml-auto">112 Joined</span>
+            </div>
+          </div>
+        ))}
+      </Card>
     </div>
   );
-};
-
-export default Card;
+}

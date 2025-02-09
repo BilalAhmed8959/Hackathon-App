@@ -23,7 +23,7 @@ const Login = () => {
 
   return (
     <div className='flex justify-center items-start pt-20'>
-    <div className='w-[350px]  h-96 flex flex-col  items-center rounded-2xl shadow-md'>
+    <div className='w-[350px]  h-96 flex flex-col  items-center  rounded-lg shadow-md border border-gray-400'>
       <h1 className='pt-10 text-3xl font-bold font-medium'>Sign in</h1>
              <input className='mt-16  rounded-b-sm p-1 shadow-md'
         type="email" 

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { app } from '../firebase/firebaseConfig';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { MdAddPhotoAlternate } from "react-icons/md";
+
 
 const auth = getAuth(app);
 
@@ -46,7 +48,7 @@ const Signup = () => {
 
   return (
     <div className='flex justify-center items-start pt-20'>
-      <div className='w-[350px] h-96 flex flex-col items-center rounded-2xl shadow-md'>
+      <div className='w-[350px] h-96 flex flex-col items-center rounded-lg shadow-md border border-gray-400'>
         <h1 className='pt-10 text-3xl font-bold font-medium'>Sign Up</h1>
         <input 
           className='mt-16 rounded-b-sm p-1 shadow-md' 
@@ -69,7 +71,8 @@ const Signup = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button onClick={() => myWidget.open()}>Upload Image</button>
+        <button onClick={() => myWidget.open()}><MdAddPhotoAlternate className='text-3xl mt-2 ' />
+        </button>
         <div className='w-24 h-12 rounded-2xl flex justify-center items-center mt-6 bg-blue-600 hover:bg-blue-800'>
           <button  onClick={signupUser}>Signup</button>
         </div>  

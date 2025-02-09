@@ -13,10 +13,10 @@ const Sidebar = () => {
   ];
 
   const contacts = [
-    { name: '', img: "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png",  },
-    { name: '', img: "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png" },
-    { name: '', img: "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png" },
-    { name: '', img: "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png" },
+    { name: 'bilalahmed', img: "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png",  },
+    { name: 'xcv', img: "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png" },
+    { name: 'Sarfaraz', img: "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png" },
+    { name: 'Tavneer', img: "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png" },
     { name: '', img: "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png" },
     { name: '', img: "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png" },
   ];
