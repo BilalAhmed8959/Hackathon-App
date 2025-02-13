@@ -13,18 +13,22 @@ const Navbar = () => {
   }, []);
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsMobileMenuOpen((prev) => !prev);
+  };
+
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
     <nav className="flex items-center justify-between bg-white p-4 shadow-md relative">
       <div className="text-xl font-semibold text-gray-800">Scrolllink</div>
 
-      <div className="hidden md:block flex-grow mx-4">
+      <div className="hidden md:flex flex-grow mx-4">
         <input
           type="text"
           placeholder="Search something here..."
-          className="w-96 ml-60 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
+          className="w-full max-w-lg px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
         />
       </div>
 
@@ -33,7 +37,7 @@ const Navbar = () => {
           <>
             <span className="text-gray-700 font-medium">{userData.name}</span>
             <img
-              src={userData.image || "https://res.cloudinary.com/dqyzpuc70/image/upload/v1739091523/oe4fmcvoqqzousj1gaqm.png"}
+              src={userData.image || "/src/assets/2020-07-20-OBESITYEDHUB-Index_1170x780.webp"} 
               alt="User"
               className="w-10 h-10 rounded-full border"
             />
@@ -55,13 +59,18 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="absolute top-16 right-4 bg-white shadow-md rounded-lg p-4 md:hidden">
           <div className="space-y-2">
-            <Link to="/" className="block text-gray-700 hover:text-gray-500">Home</Link>
-            <Link to="/login" className="block text-gray-700 hover:text-gray-500">Signin</Link>
-            <Link to="/signup" className="block text-gray-700 hover:text-gray-500">Signup</Link>
+            <Link to="/" className="block text-gray-700 hover:text-gray-500" onClick={handleLinkClick}>
+              Home
+            </Link>
+            <Link to="/login" className="block text-gray-700 hover:text-gray-500" onClick={handleLinkClick}>
+              Signin
+            </Link>
+            <Link to="/signup" className="block text-gray-700 hover:text-gray-500" onClick={handleLinkClick}>
+              Signup
+            </Link>
           </div>
         </div>
       )}

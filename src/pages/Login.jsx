@@ -16,7 +16,6 @@ const Login = () => {
       .then((res) => {
         console.log("User signed in:", res.user);
         navigate('/home')
-        // navigate('/', { state: { user: nameValue } }); 
       })
       .catch((err) => console.error("Error signing in:", err.message));
   };

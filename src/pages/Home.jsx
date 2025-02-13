@@ -6,6 +6,7 @@ import { app } from '../firebase/firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { AiFillLike } from "react-icons/ai";
 import { FaComment, FaRegShareSquare } from "react-icons/fa";
+import Sidebar2 from '../compoment/sidebar2';
 
 const auth = getAuth(app);
 const firestore = getFirestore(app);
@@ -17,7 +18,7 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [showCommentInput, setShowCommentInput] = useState(null);
   const [commentText, setCommentText] = useState('');
-  const [likedPosts, setLikedPosts] = useState(0); // Track liked posts by post ID
+  const [likedPosts, setLikedPosts] = useState({}); // Track liked posts per ID
   const navigate = useNavigate();
   const cloudinaryRef = useRef(null);
 
@@ -30,8 +31,8 @@ const Home = () => {
 
     cloudinaryRef.current = window.cloudinary.createUploadWidget(
       {
-        cloudName: "tumhara-cloudinary-cloud-name",
-        uploadPreset: "tumhara-upload-preset"
+        cloudName: "dqyzpuc70",
+        uploadPreset: "expetizo-hackathon"
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
@@ -56,12 +57,13 @@ const Home = () => {
   };
 
   const createPost = async () => {
-    if (!postText && !imageUrl) return;
+    if (!postText.trim() && !imageUrl) return;
     const newPost = {
       username: userData?.name || "Guest",
       text: postText,
       image: imageUrl,
       comments: [],
+      likes: 0, 
     };
     const docRef = await addDoc(collection(firestore, 'posts'), newPost);
     setPosts([{ id: docRef.id, ...newPost }, ...posts]);
@@ -69,10 +71,8 @@ const Home = () => {
     setImageUrl(null);
   };
 
-  
-
   const addComment = async (postId) => {
-    if (!commentText) return;
+    if (!commentText.trim()) return;
 
     const newComment = {
       username: userData?.name || "Guest",
@@ -84,13 +84,30 @@ const Home = () => {
       comments: arrayUnion(newComment),
     });
 
+    setPosts(prevPosts =>
+      prevPosts.map(post =>
+        post.id === postId
+          ? { ...post, comments: [...post.comments, newComment] }
+          : post
+      )
+    );
+
     setCommentText('');
-    setShowCommentInput(null);
-    fetchPosts(); // Refresh posts after adding a comment
   };
-  const likePost = ()=>{
-    setLikedPosts(+1)
-  }
+
+  const likePost = async (postId) => {
+    if (likedPosts[postId]) return; 
+
+    const postRef = doc(firestore, 'posts', postId);
+    await updateDoc(postRef, { likes: (likedPosts[postId] || 0) + 1 });
+
+    setLikedPosts(prevLikes => ({ ...prevLikes, [postId]: (prevLikes[postId] || 0) + 1 }));
+    setPosts(prevPosts =>
+      prevPosts.map(post =>
+        post.id === postId ? { ...post, likes: (post.likes || 0) + 1 } : post
+      )
+    );
+  };
 
   return (
     <div className='flex min-h-screen bg-gradient-to-br from-gray-100 to-gray-300'>
@@ -125,9 +142,9 @@ const Home = () => {
             <p className='mt-3 text-gray-700'>{post.text}</p>
             {post.image && <img src={post.image} alt='Post' className='w-full h-52 object-cover rounded-xl mt-3' />}
             <div className='flex gap-6 pt-5 text-gray-600 text-lg'>
-              <button onClick={likePost}
-                className='flex items-center space-x-2 hover:text-blue-600 transition-all'>
-                <AiFillLike size={24} />{likedPosts}
+              <button onClick={() => likePost(post.id)}
+                className={`flex items-center space-x-2 hover:text-blue-600 transition-all ${likedPosts[post.id] ? "text-blue-600" : ""}`}>
+                <AiFillLike size={24} /> {post.likes || 0}
               </button>
               <button onClick={() => setShowCommentInput(post.id)} className='hover:text-gray-800 transition-all'>
                 <FaComment size={24} />
@@ -156,10 +173,10 @@ const Home = () => {
           </div>
         ))}
       </div>
+      <Sidebar2 />
 
       <button onClick={logoutUser} className='fixed top-20 right-5 bg-red-600 text-white px-5 py-2 rounded-xl shadow-xl hover:bg-red-700 transition-all'>Logout</button>
     </div>
-    
   );
 };
 
